@@ -22,7 +22,14 @@ export default function TransactionCard({ entry }: TransactionProps) {
         <Text style={transactionCardStyles.bottomText}>{today}</Text>
       </View>
       <View style={transactionCardStyles.priceContainer}>
-        <Text style={transactionCardStyles.moneyText}>{entry.amount}€</Text>
+        {entry.amount > 0 && (
+          <Text style={transactionCardStyles.moneyTextGreen}>
+            {entry.amount}€
+          </Text>
+        )}
+        {entry.amount < 0 && (
+          <Text style={transactionCardStyles.moneyText}>{entry.amount}€</Text>
+        )}
       </View>
     </View>
   );
@@ -63,5 +70,10 @@ const transactionCardStyles = StyleSheet.create({
   moneyText: {
     fontSize: 20,
     fontWeight: "600",
+  },
+  moneyTextGreen: {
+    fontSize: 20,
+    fontWeight: "600",
+    color: "#22950E",
   },
 });

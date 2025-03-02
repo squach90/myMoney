@@ -11,10 +11,12 @@ import { Ionicons } from "@expo/vector-icons";
 import AddPanel from "./components/Add";
 import TransactionCard from "./components/Transaction";
 import GoalPanel from "./components/Goal";
+import RemovePanel from "./components/Remove";
 
 export default function Index() {
   const [isAddPanelVisible, setAddPanelVisible] = useState(false);
   const [isGoalPanelVisible, setGoalPanelVisible] = useState(false);
+  const [isRemovePanelVisible, setRemovePanelVisible] = useState(false);
   const [current, setCurrent] = useState(0);
   const [goal, setGoal] = useState(0);
   const [percent, setPercent] = useState(0);
@@ -66,6 +68,14 @@ export default function Index() {
     setGoalPanelVisible(false);
   };
 
+  const handleRemovePress = () => {
+    setRemovePanelVisible(true);
+  };
+
+  const handleCloseRemovePanel = () => {
+    setRemovePanelVisible(false);
+  };
+
   const handleAddEntry = async (entry: {
     emoji: string;
     title: string;
@@ -77,6 +87,19 @@ export default function Index() {
     setCurrent(newCurrent);
     await AsyncStorage.setItem("entries", JSON.stringify(newEntries));
     setAddPanelVisible(false);
+  };
+
+  const handleRemoveEntry = async (entry: {
+    emoji: string;
+    title: string;
+    amount: number;
+  }) => {
+    const newEntries = [...entries, { ...entry, amount: -entry.amount }];
+    setEntries(newEntries);
+    const newCurrent = current - entry.amount;
+    setCurrent(newCurrent);
+    await AsyncStorage.setItem("entries", JSON.stringify(newEntries));
+    setRemovePanelVisible(false);
   };
 
   const handleSetGoal = async (newGoal: number) => {
@@ -107,6 +130,16 @@ export default function Index() {
           </View>
         </View>
       )}
+      {isRemovePanelVisible && (
+        <View style={styles.overlay}>
+          <View style={styles.panelContainer}>
+            <RemovePanel
+              onClose={handleCloseRemovePanel}
+              onRemoveEntry={handleRemoveEntry}
+            />
+          </View>
+        </View>
+      )}
       <View style={[moneyInfo.container, moneyInfo.shadowProp]}>
         <View style={moneyInfo.content}>
           <View style={moneyInfo.textContainer}>
@@ -127,7 +160,10 @@ export default function Index() {
               <Text style={moneyInfo.buttonText}>Add</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={moneyInfo.button}>
+          <TouchableOpacity
+            style={moneyInfo.button}
+            onPress={handleRemovePress}
+          >
             <View style={moneyInfo.buttonContent}>
               <Ionicons
                 name="arrow-up-outline"
