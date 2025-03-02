@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -12,24 +12,47 @@ import { Ionicons } from "@expo/vector-icons";
 
 interface AddProps {
   onClose: () => void;
+  onAddEntry: (entry: { emoji: string; title: string; amount: number }) => void;
 }
 
-export default function Add({ onClose }: AddProps) {
+export default function Add({ onClose, onAddEntry }: AddProps) {
+  const [emoji, setEmoji] = useState("");
+  const [title, setTitle] = useState("");
+  const [amount, setAmount] = useState("");
+
+  const handleAdd = () => {
+    const entry = {
+      emoji,
+      title,
+      amount: parseFloat(amount),
+    };
+    onAddEntry(entry);
+  };
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} style={styles.overlay}>
       <View style={styles.container}>
         <Text style={styles.title}>Add Money</Text>
         <View style={styles.inputContainer}>
-          <TextInput style={styles.textInputEmoji} placeholder="😃" />
+          <TextInput
+            style={styles.textInputEmoji}
+            placeholder="😃"
+            value={emoji}
+            onChangeText={setEmoji}
+          />
           <TextInput
             style={styles.textInputSalary}
             placeholder="Salary"
+            value={title}
+            onChangeText={setTitle}
             keyboardType="default"
           />
         </View>
         <TextInput
           style={styles.textInputAmount}
           placeholder="168.90€"
+          value={amount}
+          onChangeText={setAmount}
           keyboardType="numeric"
         />
         <View style={styles.buttons}>
@@ -40,7 +63,7 @@ export default function Add({ onClose }: AddProps) {
             </View>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.button2}>
+          <TouchableOpacity style={styles.button2} onPress={handleAdd}>
             <View style={styles.buttonContent}>
               <Ionicons
                 name="arrow-up-outline"

@@ -1,14 +1,41 @@
-import React, { useState } from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons } from "@expo/vector-icons";
 import AddPanel from "./components/Add";
+import TransactionCard from "./components/Transaction";
 
 let goal = 0;
-let current = 0;
 let percent = 0;
 
 export default function Index() {
   const [isAddPanelVisible, setAddPanelVisible] = useState(false);
+  const [current, setCurrent] = useState(0);
+  const [entries, setEntries] = useState<
+    { emoji: string; title: string; amount: number }[]
+  >([]);
+
+  useEffect(() => {
+    const loadEntries = async () => {
+      const storedEntries = await AsyncStorage.getItem("entries");
+      if (storedEntries) {
+        const parsedEntries = JSON.parse(storedEntries);
+        setEntries(parsedEntries);
+        const total = parsedEntries.reduce(
+          (sum: any, entry: { amount: any }) => sum + entry.amount,
+          0
+        );
+        setCurrent(total);
+      }
+    };
+    loadEntries();
+  }, []);
 
   const handleAddPress = () => {
     setAddPanelVisible(true);
@@ -18,12 +45,28 @@ export default function Index() {
     setAddPanelVisible(false);
   };
 
+  const handleAddEntry = async (entry: {
+    emoji: string;
+    title: string;
+    amount: number;
+  }) => {
+    const newEntries = [...entries, entry];
+    setEntries(newEntries);
+    const newCurrent = current + entry.amount;
+    setCurrent(newCurrent);
+    await AsyncStorage.setItem("entries", JSON.stringify(newEntries));
+    setAddPanelVisible(false);
+  };
+
   return (
     <View style={mainStyles.container}>
       {isAddPanelVisible && (
         <View style={styles.overlay}>
           <View style={styles.panelContainer}>
-            <AddPanel onClose={handleCloseAddPanel} />
+            <AddPanel
+              onClose={handleCloseAddPanel}
+              onAddEntry={handleAddEntry}
+            />
           </View>
         </View>
       )}
@@ -64,6 +107,12 @@ export default function Index() {
         </View>
       </View>
       <View style={mainStyles.hairline} />
+      <Text style={mainStyles.title}>Transactions</Text>
+      <ScrollView style={transactionStyles.scrollContainer}>
+        {entries.map((entry, index) => (
+          <TransactionCard key={index} entry={entry} />
+        ))}
+      </ScrollView>
     </View>
   );
 }
@@ -74,6 +123,11 @@ const mainStyles = StyleSheet.create({
     margin: 35,
     marginTop: 60,
     backgroundColor: "#F7F7F7",
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "600",
+    marginTop: 10,
   },
   hairline: {
     marginTop: 20,
@@ -165,5 +219,19 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
+  },
+});
+
+const transactionStyles = StyleSheet.create({
+  scrollContainer: {
+    flex: 1,
+  },
+  container: {
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    alignItems: "stretch",
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#F0F0F0",
   },
 });
