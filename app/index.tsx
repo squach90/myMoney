@@ -1,3 +1,5 @@
+import AddPanel from "./components/Add";
+import React, { useState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -6,8 +8,23 @@ let current = 0;
 let percent = 0;
 
 export default function Index() {
+  const [isAddPanelVisible, setAddPanelVisible] = useState(false);
+
+  const handleAddPress = () => {
+    setAddPanelVisible(true);
+  };
+
+  const handleCloseAddPanel = () => {
+    setAddPanelVisible(false);
+  };
+
   return (
     <View style={mainStyles.container}>
+      {isAddPanelVisible && (
+        <View style={styles.overlay}>
+          <AddPanel onClose={handleCloseAddPanel} />
+        </View>
+      )}
       <View style={[moneyInfo.container, moneyInfo.shadowProp]}>
         <View style={moneyInfo.content}>
           <View style={moneyInfo.textContainer}>
@@ -17,7 +34,7 @@ export default function Index() {
           <Text style={moneyInfo.percentageText}>{percent}%</Text>
         </View>
         <View style={moneyInfo.buttons}>
-          <TouchableOpacity style={moneyInfo.button}>
+          <TouchableOpacity style={moneyInfo.button} onPress={handleAddPress}>
             <View style={moneyInfo.buttonContent}>
               <Ionicons
                 name="arrow-up-outline"
@@ -123,6 +140,22 @@ const moneyInfo = StyleSheet.create({
     fontFamily: "Inter",
     fontSize: 20,
     fontWeight: "600",
-    marginLeft: 8, // Ajoutez un espacement entre l'icône et le texte
+    marginLeft: 8,
+  },
+});
+
+const styles = StyleSheet.create({
+  overlay: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "rgba(0,0,0,0.5)",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+    height: "100%",
+    zIndex: 10,
   },
 });
