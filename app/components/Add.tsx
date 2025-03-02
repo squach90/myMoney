@@ -27,10 +27,27 @@ export default function Add({ onClose, onAddEntry }: AddProps) {
       return;
     }
 
+    if (Number.isNaN(amount)) {
+      Alert.alert("Erreur", "The Amount field must be a number.");
+      return;
+    }
+
+    let truncatedTitle = title;
+    if (title.length > 20) {
+      truncatedTitle = title.substring(0, 20 - 3) + "...";
+    }
+
     const formattedAmount = amount.replace(",", ".");
+    const parsedAmount = parseFloat(formattedAmount);
+
+    if (isNaN(parsedAmount)) {
+      Alert.alert("Erreur", "The Amount field must be a number.");
+      return;
+    }
+
     const entry = {
       emoji,
-      title,
+      title: truncatedTitle,
       amount: parseFloat(formattedAmount),
     };
     onAddEntry(entry);
@@ -53,6 +70,7 @@ export default function Add({ onClose, onAddEntry }: AddProps) {
             value={title}
             onChangeText={setTitle}
             keyboardType="default"
+            placeholderTextColor="#888888"
           />
         </View>
         <TextInput
@@ -61,6 +79,7 @@ export default function Add({ onClose, onAddEntry }: AddProps) {
           value={amount}
           onChangeText={setAmount}
           keyboardType="numeric"
+          placeholderTextColor="#888888"
         />
         <View style={styles.buttons}>
           <TouchableOpacity style={styles.button} onPress={onClose}>

@@ -24,11 +24,20 @@ export default function GoalPanel({ onClose, onSetGoal }: GoalProps) {
       Alert.alert("Erreur", "Tous les champs sont obligatoires.");
       return;
     }
-    const formattedAmount = amount.replace(",", ".");
-
-    const goal = parseFloat(formattedAmount);
-    onSetGoal(goal);
   };
+
+  const formattedAmount = amount.replace(",", ".");
+  const parsedAmount = parseFloat(formattedAmount);
+
+  if (isNaN(parsedAmount)) {
+    Alert.alert("Erreur", "The Amount field must be a number.");
+    return;
+  }
+
+  const goal = parseFloat(formattedAmount);
+  onSetGoal(goal);
+
+  const truncateText = (text: string, maxLength: number) => {};
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} style={styles.overlay}>
@@ -40,6 +49,7 @@ export default function GoalPanel({ onClose, onSetGoal }: GoalProps) {
           value={amount}
           onChangeText={setAmount}
           keyboardType="numeric"
+          placeholderTextColor="#888888"
         />
         <View style={styles.buttons}>
           <TouchableOpacity style={styles.button} onPress={onClose}>
