@@ -27,7 +27,7 @@ export default function Remove({ onClose, onRemoveEntry }: RemoveProps) {
 
   const handleRemove = () => {
     if (!title || !amount) {
-      Alert.alert("Erreur", "Les champs Titre et Montant sont obligatoires.");
+      Alert.alert("Erreur", "The Title and Amount fields are mandatory.");
       return;
     }
 

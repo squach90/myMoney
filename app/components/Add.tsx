@@ -23,7 +23,7 @@ export default function Add({ onClose, onAddEntry }: AddProps) {
 
   const handleAdd = () => {
     if (!title || !amount) {
-      Alert.alert("Erreur", "Les champs Titre et Montant sont obligatoires.");
+      Alert.alert("Erreur", "The Title and Amount fields are mandatory.");
       return;
     }
 
