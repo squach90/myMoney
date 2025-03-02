@@ -7,6 +7,7 @@ import {
   TextInput,
   Keyboard,
   TouchableWithoutFeedback,
+  Alert,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -19,6 +20,10 @@ export default function GoalPanel({ onClose, onSetGoal }: GoalProps) {
   const [amount, setAmount] = useState("");
 
   const handleSetGoal = () => {
+    if (!amount) {
+      Alert.alert("Erreur", "Tous les champs sont obligatoires.");
+      return;
+    }
     const goal = parseFloat(amount);
     onSetGoal(goal);
   };

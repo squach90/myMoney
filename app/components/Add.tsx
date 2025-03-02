@@ -7,6 +7,7 @@ import {
   TextInput,
   Keyboard,
   TouchableWithoutFeedback,
+  Alert,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -21,6 +22,11 @@ export default function Add({ onClose, onAddEntry }: AddProps) {
   const [amount, setAmount] = useState("");
 
   const handleAdd = () => {
+    if (!title || !amount) {
+      Alert.alert("Erreur", "Les champs Titre et Montant sont obligatoires.");
+      return;
+    }
+
     const entry = {
       emoji,
       title,

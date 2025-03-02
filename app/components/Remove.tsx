@@ -7,6 +7,7 @@ import {
   TextInput,
   Keyboard,
   TouchableWithoutFeedback,
+  Alert,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -25,6 +26,11 @@ export default function Remove({ onClose, onRemoveEntry }: RemoveProps) {
   const [amount, setAmount] = useState("");
 
   const handleRemove = () => {
+    if (!title || !amount) {
+      Alert.alert("Erreur", "Les champs Titre et Montant sont obligatoires.");
+      return;
+    }
+
     const entry = {
       emoji,
       title,
