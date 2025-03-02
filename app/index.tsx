@@ -1,7 +1,7 @@
-import AddPanel from "./components/Add";
 import React, { useState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import AddPanel from "./components/Add";
 
 let goal = 0;
 let current = 0;
@@ -22,7 +22,9 @@ export default function Index() {
     <View style={mainStyles.container}>
       {isAddPanelVisible && (
         <View style={styles.overlay}>
-          <AddPanel onClose={handleCloseAddPanel} />
+          <View style={styles.panelContainer}>
+            <AddPanel onClose={handleCloseAddPanel} />
+          </View>
         </View>
       )}
       <View style={[moneyInfo.container, moneyInfo.shadowProp]}>
@@ -146,16 +148,22 @@ const moneyInfo = StyleSheet.create({
 
 const styles = StyleSheet.create({
   overlay: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: "rgba(0,0,0,0.5)",
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
     justifyContent: "center",
     alignItems: "center",
-    width: "100%",
-    height: "100%",
     zIndex: 10,
+    left: -35,
+    top: -60,
+    width: "121%",
+    height: "120%",
+  },
+  panelContainer: {
+    width: "80%", // Ajustez la largeur du panneau
+    height: "30%", // Ajustez la hauteur du panneau
+    backgroundColor: "#FFF",
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

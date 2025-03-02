@@ -16,7 +16,7 @@ interface AddProps {
 
 export default function Add({ onClose }: AddProps) {
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} style={styles.overlay}>
       <View style={styles.container}>
         <Text style={styles.title}>Add Money</Text>
         <View style={styles.inputContainer}>
@@ -58,8 +58,20 @@ export default function Add({ onClose }: AddProps) {
 }
 
 const styles = StyleSheet.create({
+  overlay: {
+    position: "absolute",
+    top: "-5%", // Dépasse en haut
+    left: "-5%", // Dépasse sur la gauche
+    right: "-5%", // Dépasse sur la droite
+    bottom: "-5%", // Dépasse en bas
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "110%", // Augmente la largeur
+    height: "110%", // Augmente la hauteur
+    zIndex: 10,
+  },
   container: {
-    marginTop: 60,
     borderRadius: 20,
     width: "100%",
     backgroundColor: "#FFFFFF",
