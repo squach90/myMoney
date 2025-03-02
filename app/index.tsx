@@ -10,13 +10,14 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons } from "@expo/vector-icons";
 import AddPanel from "./components/Add";
 import TransactionCard from "./components/Transaction";
-
-let goal = 0;
-let percent = 0;
+import GoalPanel from "./components/Goal";
 
 export default function Index() {
   const [isAddPanelVisible, setAddPanelVisible] = useState(false);
+  const [isGoalPanelVisible, setGoalPanelVisible] = useState(false);
   const [current, setCurrent] = useState(0);
+  const [goal, setGoal] = useState(0);
+  const [percent, setPercent] = useState(0);
   const [entries, setEntries] = useState<
     { emoji: string; title: string; amount: number }[]
   >([]);
@@ -24,6 +25,7 @@ export default function Index() {
   useEffect(() => {
     const loadEntries = async () => {
       const storedEntries = await AsyncStorage.getItem("entries");
+      const storedGoal = await AsyncStorage.getItem("goal");
       if (storedEntries) {
         const parsedEntries = JSON.parse(storedEntries);
         setEntries(parsedEntries);
@@ -33,9 +35,20 @@ export default function Index() {
         );
         setCurrent(total);
       }
+      if (storedGoal) {
+        setGoal(parseFloat(storedGoal));
+      }
     };
     loadEntries();
   }, []);
+
+  useEffect(() => {
+    if (goal > 0) {
+      setPercent((current / goal) * 100);
+    } else {
+      setPercent(0);
+    }
+  }, [current, goal]);
 
   const handleAddPress = () => {
     setAddPanelVisible(true);
@@ -43,6 +56,14 @@ export default function Index() {
 
   const handleCloseAddPanel = () => {
     setAddPanelVisible(false);
+  };
+
+  const handleGoalPress = () => {
+    setGoalPanelVisible(true);
+  };
+
+  const handleCloseGoalPanel = () => {
+    setGoalPanelVisible(false);
   };
 
   const handleAddEntry = async (entry: {
@@ -58,6 +79,12 @@ export default function Index() {
     setAddPanelVisible(false);
   };
 
+  const handleSetGoal = async (newGoal: number) => {
+    setGoal(newGoal);
+    await AsyncStorage.setItem("goal", newGoal.toString());
+    setGoalPanelVisible(false);
+  };
+
   return (
     <View style={mainStyles.container}>
       {isAddPanelVisible && (
@@ -66,6 +93,16 @@ export default function Index() {
             <AddPanel
               onClose={handleCloseAddPanel}
               onAddEntry={handleAddEntry}
+            />
+          </View>
+        </View>
+      )}
+      {isGoalPanelVisible && (
+        <View style={styles.overlay}>
+          <View style={styles.panelContainer}>
+            <GoalPanel
+              onClose={handleCloseGoalPanel}
+              onSetGoal={handleSetGoal}
             />
           </View>
         </View>
@@ -101,7 +138,7 @@ export default function Index() {
               <Text style={moneyInfo.buttonText}>Remove</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={moneyInfo.button}>
+          <TouchableOpacity style={moneyInfo.button} onPress={handleGoalPress}>
             <Ionicons name="ribbon-outline" size={24} color="#000" />
           </TouchableOpacity>
         </View>
