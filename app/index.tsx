@@ -44,7 +44,7 @@ export default function Index() {
 
   useEffect(() => {
     if (goal > 0) {
-      setPercent((current / goal) * 100);
+      setPercent(parseFloat(((current / goal) * 100).toFixed(2)));
     } else {
       setPercent(0);
     }
