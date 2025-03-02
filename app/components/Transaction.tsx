@@ -15,7 +15,11 @@ export default function TransactionCard({ entry }: TransactionProps) {
   return (
     <View style={transactionCardStyles.container}>
       <View style={transactionCardStyles.emojieView}>
-        <Text style={{ fontSize: 32 }}>{entry.emoji}</Text>
+        {entry.emoji ? (
+          <Text style={{ fontSize: 32 }}>{entry.emoji}</Text>
+        ) : (
+          <Text style={{ fontSize: 32 }}>{entry.title.charAt(0)}</Text>
+        )}
       </View>
       <View style={transactionCardStyles.textContainer}>
         <Text style={transactionCardStyles.topText}>{entry.title}</Text>
