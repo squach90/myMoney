@@ -31,10 +31,11 @@ export default function Remove({ onClose, onRemoveEntry }: RemoveProps) {
       return;
     }
 
+    const formattedAmount = amount.replace(",", ".");
     const entry = {
       emoji,
       title,
-      amount: parseFloat(amount),
+      amount: parseFloat(formattedAmount),
     };
     onRemoveEntry(entry);
   };

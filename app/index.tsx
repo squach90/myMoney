@@ -108,6 +108,22 @@ export default function Index() {
     setGoalPanelVisible(false);
   };
 
+  const resetValues = async () => {
+    try {
+      await AsyncStorage.removeItem("entries");
+      await AsyncStorage.removeItem("goal");
+      setEntries([]);
+      setCurrent(0);
+      setGoal(0);
+      setPercent(0);
+      console.log("Values have been reset to initial state");
+    } catch (error) {
+      console.error("Error resetting values:", error);
+    }
+  };
+
+  //resetValues();
+
   return (
     <View style={mainStyles.container}>
       {isAddPanelVisible && (
@@ -308,15 +324,3 @@ const transactionStyles = StyleSheet.create({
     borderBottomColor: "#F0F0F0",
   },
 });
-
-const resetValues = async () => {
-  try {
-    await AsyncStorage.setItem("entries", JSON.stringify([]));
-    await AsyncStorage.setItem("goal", "0");
-    console.log("Values have been reset to 0");
-  } catch (error) {
-    console.error("Error resetting values:", error);
-  }
-};
-
-//resetValues();

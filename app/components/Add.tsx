@@ -27,10 +27,11 @@ export default function Add({ onClose, onAddEntry }: AddProps) {
       return;
     }
 
+    const formattedAmount = amount.replace(",", ".");
     const entry = {
       emoji,
       title,
-      amount: parseFloat(amount),
+      amount: parseFloat(formattedAmount),
     };
     onAddEntry(entry);
   };

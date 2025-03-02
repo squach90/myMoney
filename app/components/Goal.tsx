@@ -24,7 +24,9 @@ export default function GoalPanel({ onClose, onSetGoal }: GoalProps) {
       Alert.alert("Erreur", "Tous les champs sont obligatoires.");
       return;
     }
-    const goal = parseFloat(amount);
+    const formattedAmount = amount.replace(",", ".");
+
+    const goal = parseFloat(formattedAmount);
     onSetGoal(goal);
   };
 
