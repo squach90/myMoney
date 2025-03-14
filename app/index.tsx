@@ -12,11 +12,13 @@ import AddPanel from "./components/Add";
 import TransactionCard from "./components/Transaction";
 import GoalPanel from "./components/Goal";
 import RemovePanel from "./components/Remove";
+import Settings from "./components/Settings";
 
 export default function Index() {
   const [isAddPanelVisible, setAddPanelVisible] = useState(false);
   const [isGoalPanelVisible, setGoalPanelVisible] = useState(false);
   const [isRemovePanelVisible, setRemovePanelVisible] = useState(false);
+  const [isSettingsPanelVisible, setSettingsPanelVisible] = useState(false);
   const [current, setCurrent] = useState(0);
   const [goal, setGoal] = useState(0);
   const [percent, setPercent] = useState(0);
@@ -24,23 +26,24 @@ export default function Index() {
     { emoji: string; title: string; amount: number }[]
   >([]);
 
+  const loadEntries = async () => {
+    const storedEntries = await AsyncStorage.getItem("entries");
+    const storedGoal = await AsyncStorage.getItem("goal");
+    if (storedEntries) {
+      const parsedEntries = JSON.parse(storedEntries);
+      setEntries(parsedEntries);
+      const total = parsedEntries.reduce(
+        (sum: any, entry: { amount: any }) => sum + entry.amount,
+        0
+      );
+      setCurrent(total);
+    }
+    if (storedGoal) {
+      setGoal(parseFloat(storedGoal));
+    }
+  };
+
   useEffect(() => {
-    const loadEntries = async () => {
-      const storedEntries = await AsyncStorage.getItem("entries");
-      const storedGoal = await AsyncStorage.getItem("goal");
-      if (storedEntries) {
-        const parsedEntries = JSON.parse(storedEntries);
-        setEntries(parsedEntries);
-        const total = parsedEntries.reduce(
-          (sum: any, entry: { amount: any }) => sum + entry.amount,
-          0
-        );
-        setCurrent(total);
-      }
-      if (storedGoal) {
-        setGoal(parseFloat(storedGoal));
-      }
-    };
     loadEntries();
   }, []);
 
@@ -74,6 +77,14 @@ export default function Index() {
 
   const handleCloseRemovePanel = () => {
     setRemovePanelVisible(false);
+  };
+
+  const handleSettingsPress = () => {
+    setSettingsPanelVisible(true);
+  };
+
+  const handleCloseSettingsPanel = () => {
+    setSettingsPanelVisible(false);
   };
 
   const handleAddEntry = async (entry: {
@@ -117,6 +128,7 @@ export default function Index() {
       setGoal(0);
       setPercent(0);
       console.log("Values have been reset to initial state");
+      loadEntries(); // Ajoutez cet appel pour rafraîchir les valeurs
     } catch (error) {
       console.error("Error resetting values:", error);
     }
@@ -152,6 +164,16 @@ export default function Index() {
             <RemovePanel
               onClose={handleCloseRemovePanel}
               onRemoveEntry={handleRemoveEntry}
+            />
+          </View>
+        </View>
+      )}
+      {isSettingsPanelVisible && (
+        <View style={styles.overlay}>
+          <View style={styles.panelContainer}>
+            <Settings
+              onClose={handleCloseSettingsPanel}
+              loadEntries={loadEntries}
             />
           </View>
         </View>
@@ -202,6 +224,12 @@ export default function Index() {
           <TransactionCard key={index} entry={entry} />
         ))}
       </ScrollView>
+      <TouchableOpacity
+        style={styles.settingsButton}
+        onPress={handleSettingsPress}
+      >
+        <Ionicons name="settings-outline" size={30} color="#000" />
+      </TouchableOpacity>
     </View>
   );
 }
@@ -308,6 +336,19 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
+  },
+  settingsButton: {
+    position: "absolute",
+    bottom: 20,
+    right: 20,
+    backgroundColor: "#FFFFFF",
+    borderRadius: 50,
+    padding: 10,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
+    elevation: 5,
   },
 });
 

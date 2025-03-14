@@ -36,6 +36,15 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "24ed23d5-8ff8-453e-9f9e-de68345921d5"
+      }
+    },
+    "owner": "squach90"
   }
 }
