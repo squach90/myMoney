@@ -237,9 +237,15 @@ export default function Index() {
       <View style={mainStyles.hairline} />
       <Text style={mainStyles.title}>Transactions</Text>
       <ScrollView style={transactionStyles.scrollContainer}>
-        {entries.map((entry, index) => (
-          <TransactionCard key={index} entry={entry} />
-        ))}
+        {entries.length > 0 ? (
+          entries.map((entry, index) => (
+            <TransactionCard key={index} entry={entry} />
+          ))
+        ) : (
+          <Text style={transactionStyles.emptyText}>
+            This is where it all begins 📍
+          </Text>
+        )}
       </ScrollView>
       <TouchableOpacity
         style={styles.settingsButton}
@@ -380,5 +386,11 @@ const transactionStyles = StyleSheet.create({
     padding: 10,
     borderBottomWidth: 1,
     borderBottomColor: "#F0F0F0",
+  },
+  emptyText: {
+    fontSize: 16,
+    fontWeight: "600",
+    marginTop: 20,
+    textAlign: "center",
   },
 });
