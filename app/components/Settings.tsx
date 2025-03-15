@@ -53,9 +53,27 @@ export default function Settings({ onClose, loadEntries }: SettingsProps) {
             </View>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.button2} onPress={resetValues}>
+          <TouchableOpacity
+            style={styles.button2}
+            onPress={() =>
+              Alert.alert(
+                "Confirmation",
+                "Are you sure you want to reset all values?",
+                [
+                  {
+                    text: "Cancel",
+                    style: "cancel",
+                  },
+                  {
+                    text: "Yes",
+                    onPress: resetValues,
+                  },
+                ]
+              )
+            }
+          >
             <View style={styles.buttonContent}>
-              <Ionicons name="checkmark-outline" size={30} color="#000" />
+              <Ionicons name="refresh-circle-outline" size={30} color="#000" />
               <Text style={styles.buttonText}>Reset</Text>
             </View>
           </TouchableOpacity>
@@ -82,6 +100,7 @@ const styles = StyleSheet.create({
   container: {
     borderRadius: 20,
     width: "100%",
+
     backgroundColor: "#FFFFFF",
   },
   title: {

@@ -136,6 +136,18 @@ export default function Index() {
     setGoalPanelVisible(false);
   };
 
+  const handleDeleteEntry = async (entryToDelete: {
+    emoji: string;
+    title: string;
+    amount: number;
+  }) => {
+    const newEntries = entries.filter((entry) => entry !== entryToDelete);
+    setEntries(newEntries);
+    const newCurrent = current - entryToDelete.amount;
+    setCurrent(newCurrent);
+    await AsyncStorage.setItem("entries", JSON.stringify(newEntries));
+  };
+
   const resetValues = async () => {
     try {
       await AsyncStorage.removeItem("entries");
@@ -239,7 +251,11 @@ export default function Index() {
       <ScrollView style={transactionStyles.scrollContainer}>
         {entries.length > 0 ? (
           entries.map((entry, index) => (
-            <TransactionCard key={index} entry={entry} />
+            <TransactionCard
+              key={index}
+              entry={entry}
+              onDelete={handleDeleteEntry}
+            />
           ))
         ) : (
           <Text style={transactionStyles.emptyText}>
