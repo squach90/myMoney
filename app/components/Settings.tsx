@@ -32,32 +32,31 @@ export default function Settings({ onClose, loadEntries }: SettingsProps) {
       setCurrent(0);
       setGoal(0);
       setPercent(0);
-      Alert.alert("Succès", "Les valeurs ont été réinitialisées.");
-      loadEntries(); // Ajoutez cet appel pour rafraîchir les valeurs
+      console.log("Values have been reset to initial state");
+      await loadEntries(); // Rafraîchit les valeurs
+      onClose(); // Ferme le panneau
     } catch (error) {
       console.error("Error resetting values:", error);
-      Alert.alert(
-        "Erreur",
-        "Une erreur s'est produite lors de la réinitialisation des valeurs."
-      );
     }
   };
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={styles.overlay}>
-        <View style={styles.container}>
-          <Text style={styles.title}>Paramètres</Text>
-          <TouchableOpacity style={styles.button} onPress={resetValues}>
-            <View style={styles.buttonContent}>
-              <Ionicons name="refresh-outline" size={24} color="#000" />
-              <Text style={styles.buttonText}>Reset</Text>
-            </View>
-          </TouchableOpacity>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} style={styles.overlay}>
+      <View style={styles.container}>
+        <Text style={styles.title}>Settings</Text>
+
+        <View style={styles.buttons}>
           <TouchableOpacity style={styles.button} onPress={onClose}>
             <View style={styles.buttonContent}>
               <Ionicons name="close-outline" size={30} color="#000" />
               <Text style={styles.buttonText}>Close</Text>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.button2} onPress={resetValues}>
+            <View style={styles.buttonContent}>
+              <Ionicons name="checkmark-outline" size={30} color="#000" />
+              <Text style={styles.buttonText}>Reset</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -90,14 +89,38 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     margin: 20,
   },
+  textInputAmount: {
+    height: 40,
+    margin: 12,
+    marginRight: 26,
+    marginLeft: 26,
+    borderWidth: 1,
+    padding: 10,
+    borderRadius: 5,
+    backgroundColor: "#F9F9F9",
+    borderColor: "#C2C2C2",
+  },
+  buttons: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+    marginTop: 10,
+    marginBottom: 20,
+  },
   button: {
     padding: 10,
     backgroundColor: "#D9D9D9",
     borderRadius: 5,
     alignItems: "center",
-    marginVertical: 10,
-    width: "80%",
-    alignSelf: "center",
+    marginLeft: 45,
+    marginRight: 10,
+  },
+  button2: {
+    padding: 10,
+    backgroundColor: "#D9D9D9",
+    borderRadius: 5,
+    alignItems: "center",
+    marginRight: 60,
   },
   buttonContent: {
     flexDirection: "row",
@@ -107,6 +130,6 @@ const styles = StyleSheet.create({
     fontFamily: "Inter",
     fontSize: 20,
     fontWeight: "600",
-    marginLeft: 8,
+    marginLeft: 8, // Ajoutez un espacement entre l'icône et le texte
   },
 });

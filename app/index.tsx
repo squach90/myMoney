@@ -15,6 +15,10 @@ import RemovePanel from "./components/Remove";
 import Settings from "./components/Settings";
 
 export default function Index() {
+  useEffect(() => {
+    loadEntries();
+  }, []);
+
   const [isAddPanelVisible, setAddPanelVisible] = useState(false);
   const [isGoalPanelVisible, setGoalPanelVisible] = useState(false);
   const [isRemovePanelVisible, setRemovePanelVisible] = useState(false);
@@ -25,6 +29,14 @@ export default function Index() {
   const [entries, setEntries] = useState<
     { emoji: string; title: string; amount: number }[]
   >([]);
+
+  useEffect(() => {
+    if (goal > 0) {
+      setPercent(parseFloat(((current / goal) * 100).toFixed(2)));
+    } else {
+      setPercent(0);
+    }
+  }, [current, goal]);
 
   const loadEntries = async () => {
     const storedEntries = await AsyncStorage.getItem("entries");
@@ -37,9 +49,14 @@ export default function Index() {
         0
       );
       setCurrent(total);
+    } else {
+      setEntries([]);
+      setCurrent(0);
     }
     if (storedGoal) {
       setGoal(parseFloat(storedGoal));
+    } else {
+      setGoal(0);
     }
   };
 
@@ -339,8 +356,8 @@ const styles = StyleSheet.create({
   },
   settingsButton: {
     position: "absolute",
-    bottom: 20,
-    right: 20,
+    bottom: 0,
+    right: 0,
     backgroundColor: "#FFFFFF",
     borderRadius: 50,
     padding: 10,

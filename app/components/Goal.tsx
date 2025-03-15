@@ -20,24 +20,23 @@ export default function GoalPanel({ onClose, onSetGoal }: GoalProps) {
   const [amount, setAmount] = useState("");
 
   const handleSetGoal = () => {
+    const formattedAmount = amount.replace(",", ".");
+    const parsedAmount = parseFloat(formattedAmount);
+
     if (!amount) {
       Alert.alert("Erreur", "Tous les champs sont obligatoires.");
       return;
     }
+
+    if (isNaN(parsedAmount)) {
+      Alert.alert("Erreur", "The Amount field must be a number.");
+      return;
+    }
+
+    const goal = parseFloat(formattedAmount);
+    onSetGoal(goal);
+    onClose(); // Ferme le panneau après avoir défini l'objectif
   };
-
-  const formattedAmount = amount.replace(",", ".");
-  const parsedAmount = parseFloat(formattedAmount);
-
-  if (isNaN(parsedAmount)) {
-    Alert.alert("Erreur", "The Amount field must be a number.");
-    return;
-  }
-
-  const goal = parseFloat(formattedAmount);
-  onSetGoal(goal);
-
-  const truncateText = (text: string, maxLength: number) => {};
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} style={styles.overlay}>
@@ -74,15 +73,15 @@ export default function GoalPanel({ onClose, onSetGoal }: GoalProps) {
 const styles = StyleSheet.create({
   overlay: {
     position: "absolute",
-    top: "-5%", // Dépasse en haut
-    left: "-5%", // Dépasse sur la gauche
-    right: "-5%", // Dépasse sur la droite
-    bottom: "-5%", // Dépasse en bas
+    top: "-5%",
+    left: "-5%",
+    right: "-5%",
+    bottom: "-5%",
     backgroundColor: "rgba(0, 0, 0, 0.5)",
     justifyContent: "center",
     alignItems: "center",
-    width: "110%", // Augmente la largeur
-    height: "110%", // Augmente la hauteur
+    width: "110%",
+    height: "110%",
     zIndex: 10,
   },
   container: {
@@ -136,6 +135,6 @@ const styles = StyleSheet.create({
     fontFamily: "Inter",
     fontSize: 20,
     fontWeight: "600",
-    marginLeft: 8, // Ajoutez un espacement entre l'icône et le texte
+    marginLeft: 8,
   },
 });
