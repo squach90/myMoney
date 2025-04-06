@@ -38,32 +38,40 @@ export default function GoalPanel({ onClose, onSetGoal }: GoalProps) {
     onClose(); // Ferme le panneau après avoir défini l'objectif
   };
 
-  return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss} style={styles.overlay}>
-      <View style={styles.container}>
-        <Text style={styles.title}>Define Goal</Text>
-        <TextInput
-          style={styles.textInputAmount}
-          placeholder="168.90€"
-          value={amount}
-          onChangeText={setAmount}
-          keyboardType="numeric"
-          placeholderTextColor="#888888"
-        />
-        <View style={styles.buttons}>
-          <TouchableOpacity style={styles.button} onPress={onClose}>
-            <View style={styles.buttonContent}>
-              <Ionicons name="close-outline" size={30} color="#000" />
-              <Text style={styles.buttonText}>Close</Text>
-            </View>
-          </TouchableOpacity>
+  const handleDismissKeyboard = (event: any) => {
+    if (event.target === event.currentTarget) {
+      Keyboard.dismiss();
+    }
+  };
 
-          <TouchableOpacity style={styles.button2} onPress={handleSetGoal}>
-            <View style={styles.buttonContent}>
-              <Ionicons name="checkmark-outline" size={30} color="#000" />
-              <Text style={styles.buttonText}>Define</Text>
-            </View>
-          </TouchableOpacity>
+  return (
+    <TouchableWithoutFeedback onPress={handleDismissKeyboard}>
+      <View style={styles.overlay}>
+        <View style={styles.container}>
+          <Text style={styles.title}>Define Goal</Text>
+          <TextInput
+            style={styles.textInputAmount}
+            placeholder="168.90€"
+            value={amount}
+            onChangeText={setAmount}
+            keyboardType="numeric"
+            placeholderTextColor="#888888"
+          />
+          <View style={styles.buttons}>
+            <TouchableOpacity style={styles.button} onPress={onClose}>
+              <View style={styles.buttonContent}>
+                <Ionicons name="close-outline" size={30} color="#000" />
+                <Text style={styles.buttonText}>Close</Text>
+              </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.button2} onPress={handleSetGoal}>
+              <View style={styles.buttonContent}>
+                <Ionicons name="checkmark-outline" size={30} color="#000" />
+                <Text style={styles.buttonText}>Define</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </TouchableWithoutFeedback>

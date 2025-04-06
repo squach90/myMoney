@@ -52,53 +52,61 @@ export default function Remove({ onClose, onRemoveEntry }: RemoveProps) {
     onRemoveEntry(entry);
   };
 
+  const handleDismissKeyboard = (event: any) => {
+    if (event.target === event.currentTarget) {
+      Keyboard.dismiss();
+    }
+  };
+
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss} style={styles.overlay}>
-      <View style={styles.container}>
-        <Text style={styles.title}>Remove Money</Text>
-        <View style={styles.inputContainer}>
+    <TouchableWithoutFeedback onPress={handleDismissKeyboard}>
+      <View style={styles.overlay}>
+        <View style={styles.container}>
+          <Text style={styles.title}>Remove Money</Text>
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={styles.textInputEmoji}
+              placeholder="🙁"
+              value={emoji}
+              onChangeText={setEmoji}
+            />
+            <TextInput
+              style={styles.textInputSalary}
+              placeholder="Starbucks"
+              value={title}
+              onChangeText={setTitle}
+              keyboardType="default"
+              placeholderTextColor="#888888"
+            />
+          </View>
           <TextInput
-            style={styles.textInputEmoji}
-            placeholder="🙁"
-            value={emoji}
-            onChangeText={setEmoji}
-          />
-          <TextInput
-            style={styles.textInputSalary}
-            placeholder="Starbucks"
-            value={title}
-            onChangeText={setTitle}
-            keyboardType="default"
+            style={styles.textInputAmount}
+            placeholder="13.40€"
+            value={amount}
+            onChangeText={setAmount}
+            keyboardType="numeric"
             placeholderTextColor="#888888"
           />
-        </View>
-        <TextInput
-          style={styles.textInputAmount}
-          placeholder="13.40€"
-          value={amount}
-          onChangeText={setAmount}
-          keyboardType="numeric"
-          placeholderTextColor="#888888"
-        />
-        <View style={styles.buttons}>
-          <TouchableOpacity style={styles.button} onPress={onClose}>
-            <View style={styles.buttonContent}>
-              <Ionicons name="close-outline" size={30} color="#000" />
-              <Text style={styles.buttonText}>Close</Text>
-            </View>
-          </TouchableOpacity>
+          <View style={styles.buttons}>
+            <TouchableOpacity style={styles.button} onPress={onClose}>
+              <View style={styles.buttonContent}>
+                <Ionicons name="close-outline" size={30} color="#000" />
+                <Text style={styles.buttonText}>Close</Text>
+              </View>
+            </TouchableOpacity>
 
-          <TouchableOpacity style={styles.button2} onPress={handleRemove}>
-            <View style={styles.buttonContent}>
-              <Ionicons
-                name="arrow-up-outline"
-                size={30}
-                color="#000"
-                style={{ transform: [{ rotate: "135deg" }] }}
-              />
-              <Text style={styles.buttonText}>Remove</Text>
-            </View>
-          </TouchableOpacity>
+            <TouchableOpacity style={styles.button2} onPress={handleRemove}>
+              <View style={styles.buttonContent}>
+                <Ionicons
+                  name="arrow-up-outline"
+                  size={30}
+                  color="#000"
+                  style={{ transform: [{ rotate: "135deg" }] }}
+                />
+                <Text style={styles.buttonText}>Remove</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </TouchableWithoutFeedback>
