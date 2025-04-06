@@ -13,16 +13,8 @@ import TransactionCard from "./components/Transaction";
 import GoalPanel from "./components/Goal";
 import RemovePanel from "./components/Remove";
 import Settings from "./components/Settings";
-import AppLoading from "expo-app-loading";
-import { useFonts } from "expo-font";
 
 export default function Index() {
-  let [fontsLoaded] = useFonts({
-    Inter: require("../assets/fonts/Inter-VariableFont_opsz,wght.ttf"),
-  });
-  if (!fontsLoaded) {
-    return <AppLoading />;
-  }
   useEffect(() => {
     loadEntries();
   }, []);
@@ -326,18 +318,18 @@ const moneyInfo = StyleSheet.create({
   amount: {
     fontSize: 40,
     fontWeight: "600",
-    fontFamily: "Inter",
+    //fontFamily: "Inter",
   },
   total: {
     fontSize: 32,
     color: "#888888",
     fontWeight: "600",
-    fontFamily: "Inter",
+    //fontFamily: "Inter",
   },
   percentageText: {
     fontSize: 16,
     fontWeight: "600",
-    fontFamily: "Inter",
+    //fontFamily: "Inter",
     marginLeft: 10,
   },
   buttons: {
@@ -357,7 +349,7 @@ const moneyInfo = StyleSheet.create({
     alignItems: "center",
   },
   buttonText: {
-    fontFamily: "Inter",
+    //fontFamily: "Inter",
     fontSize: 20,
     fontWeight: "600",
     marginLeft: 8,

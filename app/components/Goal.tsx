@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   buttonText: {
-    fontFamily: "Inter",
+    //fontFamily: "Inter",
     fontSize: 20,
     fontWeight: "600",
     marginLeft: 8,
