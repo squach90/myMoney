@@ -27,7 +27,10 @@ export default function Add({ onClose, onAddEntry }: AddProps) {
       return;
     }
 
-    if (Number.isNaN(amount)) {
+    const formattedAmount = amount.replace(",", ".");
+    const parsedAmount = parseFloat(formattedAmount);
+
+    if (isNaN(parsedAmount)) {
       Alert.alert("Erreur", "The Amount field must be a number.");
       return;
     }
@@ -37,69 +40,69 @@ export default function Add({ onClose, onAddEntry }: AddProps) {
       truncatedTitle = title.substring(0, 20 - 3) + "...";
     }
 
-    const formattedAmount = amount.replace(",", ".");
-    const parsedAmount = parseFloat(formattedAmount);
-
-    if (isNaN(parsedAmount)) {
-      Alert.alert("Erreur", "The Amount field must be a number.");
-      return;
-    }
-
     const entry = {
       emoji,
       title: truncatedTitle,
-      amount: parseFloat(formattedAmount),
+      amount: parsedAmount,
     };
     onAddEntry(entry);
   };
 
+  const handleDismissKeyboard = (event: any) => {
+    if (event.target === event.currentTarget) {
+      Keyboard.dismiss();
+    }
+  };
+
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss} style={styles.overlay}>
-      <View style={styles.container}>
-        <Text style={styles.title}>Add Money</Text>
-        <View style={styles.inputContainer}>
+    <TouchableWithoutFeedback onPress={handleDismissKeyboard}>
+      <View style={styles.overlay}>
+        <View style={styles.container}>
+          <Text style={styles.title}>Add Money</Text>
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={styles.textInputEmoji}
+              placeholder="😃"
+              value={emoji}
+              onChangeText={setEmoji}
+            />
+            <TextInput
+              style={styles.textInputSalary}
+              placeholder="Salary"
+              value={title}
+              onChangeText={setTitle}
+              keyboardType="default"
+              placeholderTextColor="#888888"
+            />
+          </View>
           <TextInput
-            style={styles.textInputEmoji}
-            placeholder="😃"
-            value={emoji}
-            onChangeText={setEmoji}
-          />
-          <TextInput
-            style={styles.textInputSalary}
-            placeholder="Salary"
-            value={title}
-            onChangeText={setTitle}
-            keyboardType="default"
+            style={styles.textInputAmount}
+            placeholder="168.90€"
+            value={amount}
+            onChangeText={setAmount}
+            keyboardType="numeric"
             placeholderTextColor="#888888"
           />
-        </View>
-        <TextInput
-          style={styles.textInputAmount}
-          placeholder="168.90€"
-          value={amount}
-          onChangeText={setAmount}
-          keyboardType="numeric"
-          placeholderTextColor="#888888"
-        />
-        <View style={styles.buttons}>
-          <TouchableOpacity style={styles.button} onPress={onClose}>
-            <View style={styles.buttonContent}>
-              <Ionicons name="close-outline" size={30} color="#000" />
-              <Text style={styles.buttonText}>Close</Text>
-            </View>
-          </TouchableOpacity>
+          <View style={styles.buttons}>
+            <TouchableOpacity style={styles.button} onPress={onClose}>
+              <View style={styles.buttonContent}>
+                <Ionicons name="close-outline" size={30} color="#000" />
+                <Text style={styles.buttonText}>Close</Text>
+              </View>
+            </TouchableOpacity>
 
-          <TouchableOpacity style={styles.button2} onPress={handleAdd}>
-            <View style={styles.buttonContent}>
-              <Ionicons
-                name="arrow-up-outline"
-                size={30}
-                color="#000"
-                style={{ transform: [{ rotate: "45deg" }] }}
-              />
-              <Text style={styles.buttonText}>Add</Text>
-            </View>
-          </TouchableOpacity>
+            <TouchableOpacity style={styles.button2} onPress={handleAdd}>
+              <View style={styles.buttonContent}>
+                <Ionicons
+                  name="arrow-up-outline"
+                  size={30}
+                  color="#000"
+                  style={{ transform: [{ rotate: "45deg" }] }}
+                />
+                <Text style={styles.buttonText}>Add</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </TouchableWithoutFeedback>
