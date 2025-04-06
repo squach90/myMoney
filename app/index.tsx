@@ -167,8 +167,6 @@ export default function Index() {
 
   return (
     <View style={mainStyles.container}>
-      <link rel="manifest" href="/manifest.json" />
-
       {isAddPanelVisible && (
         <View style={styles.overlay}>
           <View style={styles.panelContainer}>
@@ -326,12 +324,12 @@ const moneyInfo = StyleSheet.create({
     fontSize: 32,
     color: "#888888",
     fontWeight: "600",
-    //fontFamily: "Inter",
+    // fontFamily: "Inter",
   },
   percentageText: {
     fontSize: 16,
     fontWeight: "600",
-    //fontFamily: "Inter",
+    // fontFamily: "Inter",
     marginLeft: 10,
   },
   buttons: {
@@ -351,7 +349,7 @@ const moneyInfo = StyleSheet.create({
     alignItems: "center",
   },
   buttonText: {
-    //fontFamily: "Inter",
+    // fontFamily: "Inter",
     fontSize: 20,
     fontWeight: "600",
     marginLeft: 8,
