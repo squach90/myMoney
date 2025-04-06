@@ -94,7 +94,7 @@ export default function Remove({ onClose, onRemoveEntry }: RemoveProps) {
                 name="arrow-up-outline"
                 size={30}
                 color="#000"
-                style={{ transform: [{ rotate: "130deg" }] }}
+                style={{ transform: [{ rotate: "135deg" }] }}
               />
               <Text style={styles.buttonText}>Remove</Text>
             </View>
