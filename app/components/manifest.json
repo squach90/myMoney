@@ -1,0 +1,9 @@
+{
+  "name": "myMonney",
+  "short_name": "myMonney",
+  "description": "Une application pour gérer vos finances.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff"
+}
