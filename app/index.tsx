@@ -13,8 +13,16 @@ import TransactionCard from "./components/Transaction";
 import GoalPanel from "./components/Goal";
 import RemovePanel from "./components/Remove";
 import Settings from "./components/Settings";
+import AppLoading from "expo-app-loading";
+import { useFonts } from "expo-font";
 
 export default function Index() {
+  let [fontsLoaded] = useFonts({
+    Inter: require("../assets/fonts/Inter-VariableFont_opsz,wght.ttf"),
+  });
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
   useEffect(() => {
     loadEntries();
   }, []);
