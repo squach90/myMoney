@@ -175,7 +175,6 @@ export default function Index() {
 
   return (
     <View style={mainStyles.container}>
-      <link rel="manifest" href="/manifest.json"></link>
       {isAddPanelVisible && (
         <View style={styles.overlay}>
           <View style={styles.panelContainer}>
