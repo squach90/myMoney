@@ -15,17 +15,11 @@ Gardez un œil sur vos finances personnelles et visualisez vos budgets.
 
 ## Screenshots / Mockups
 
-### Écran principal
-
-![Mockup écran principal](./mockups/main_screen.png)
-
----
-
-### Ajout d’une dépense
-
-![Mockup ajout dépense](./mockups/add_expense.png)
-
----
+<p align="center">
+  <img src="./mockups/main_screen.png" width="250" alt="Mockup écran principal" />
+  <img src="./mockups/add_expense.png" width="250" alt="Mockup ajout dépense" />
+  <img src="./mockups/add_goal.png" width="250" alt="Mockup ajout goal" />
+</p>
 
 ## Installation
 
