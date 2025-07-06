@@ -42,6 +42,14 @@ Gardez un œil sur vos finances personnelles et visualisez vos budgets.
 
 ---
 
+## Problème:
+  ```bash
+  rm -rf node_modules package-lock.json
+  npm install --legacy-peer-deps
+  ```
+
+---
+
 ## Utilisation
 
 - Ouvrez l’application
