@@ -26,7 +26,7 @@ Gardez un œil sur vos finances personnelles et visualisez vos budgets.
 1. Clonez ce dépôt :
 
    ```bash
-   git clone https://github.com/ton-utilisateur/myMonney.git
+   git clone https://github.com/squach90/myMonney.git
    ```
 
 2. Installez les dépendances :
